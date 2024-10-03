@@ -1,6 +1,7 @@
+/* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [],
+  content: ["./FollowUpNotes/**/*.{ts,tsx}"],
   theme: {
     extend: {},
   },
