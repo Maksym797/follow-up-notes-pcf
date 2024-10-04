@@ -1,10 +1,11 @@
 /* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./FollowUpNotes/**/*.{ts,tsx}"],
+  content: [
+    "./**/**/*.{ts,tsx}", 
+    "!./node_modules/**/*.{ts,tsx}"],
   theme: {
     extend: {},
   },
   plugins: [],
 }
-
