@@ -1,13 +1,15 @@
 import { PrimaryButton, Stack, TextField } from '@fluentui/react';
+import * as dayjs from 'dayjs';
 import { FC, useEffect, useState } from 'react';
 import * as React from 'react';
 
 export interface IFollowUpNotesProps {
   value?: string;
   setValue: (value: string) => void;
+  dateFormat: string;
 }
 
-export const FollowUpNotes: FC<IFollowUpNotesProps> = ({ value, setValue }) => {
+export const FollowUpNotes: FC<IFollowUpNotesProps> = ({ value, setValue, dateFormat }) => {
   const [readOnlyValue, setReadOnlyValue] = useState<string>(value ?? "");
   const [inputValue, setInputValue] = useState<string | undefined>();
 
@@ -24,9 +26,7 @@ export const FollowUpNotes: FC<IFollowUpNotesProps> = ({ value, setValue }) => {
     if (!inputValue)
       return;
 
-    const date = `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()}`;
-
-    setReadOnlyValue(`${date}: ${inputValue}\r\n${readOnlyValue}`);
+    setReadOnlyValue(`${dayjs().format(dateFormat)}${inputValue}\r\n${readOnlyValue}`);
     setInputValue("");
   }
 

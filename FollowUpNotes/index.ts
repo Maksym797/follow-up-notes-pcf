@@ -22,8 +22,10 @@ export class FollowUpNotes
     context: ComponentFramework.Context<IInputs>
   ): React.ReactElement {
     this._value = context.parameters.FollowUpNotes.raw as string;
+    const dayjsFormat = context.parameters.DayjsFormat.raw || 'MM/DD/YYYY: ';
     const props: IFollowUpNotesProps = {
       value: this._value,
+      dateFormat: dayjsFormat,
       setValue: this.setValue.bind(this),
     };
     return React.createElement(Control, props);
