@@ -21,7 +21,7 @@ export class FollowUpNotes
   public updateView(
     context: ComponentFramework.Context<IInputs>
   ): React.ReactElement {
-    this._value = context.parameters.sampleProperty.raw as string;
+    this._value = context.parameters.FollowUpNotes.raw as string;
     const props: IFollowUpNotesProps = {
       value: this._value,
       setValue: this.setValue.bind(this),
@@ -36,7 +36,7 @@ export class FollowUpNotes
   
   public getOutputs(): IOutputs {
     return {
-      sampleProperty: this._value,
+      FollowUpNotes: this._value,
     };
   }
 

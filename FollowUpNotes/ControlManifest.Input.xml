@@ -3,7 +3,7 @@
   <control namespace="mm797" constructor="FollowUpNotes" version="0.0.1" display-name-key="FollowUpNotes" description-key="FollowUpNotes description" control-type="virtual" >
     <external-service-usage enabled="false">
     </external-service-usage>
-    <property name="FollowUpNotes" display-name-key="Follow_Up_Notes" description-key="Follow_Up_Notes_key" of-type="Multiline" usage="bound" required="true" />
+    <property name="FollowUpNotes" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type="Multiple" usage="bound" required="true" />
     <resources>
       <code path="index.ts" order="1"/>
       <platform-library name="React" version="16.8.6" />

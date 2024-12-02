@@ -5,6 +5,7 @@
     "scripts": {
         "taiwind:build": "npx tailwindcss -i ./input.css -o ./FollowUpNotes/output.css",
         "build": "npm run taiwind:build && pcf-scripts build",
+        "build:pcf": "pcf-scripts build",
         "clean": "pcf-scripts clean",
         "lint": "pcf-scripts lint",
         "lint:fix": "pcf-scripts lint fix",
