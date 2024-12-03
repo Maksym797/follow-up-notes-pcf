@@ -562,6 +562,10 @@ video {
   margin-top: 0.75rem !important;
 }
 
+.h-full {
+  height: 100%;
+}
+
 .w-full {
   width: 100%;
 }
