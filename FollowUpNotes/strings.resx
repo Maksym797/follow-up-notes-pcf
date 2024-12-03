@@ -1,6 +1,0 @@
-<data name="DayjsFormat_DisplayName" xml:space="preserve">
-  <value>Date Format</value>
-</data>
-<data name="DayjsFormat_Description" xml:space="preserve">
-  <value>Provide format for date from dayjs. https://day.js.org/docs/en/display/format. Default value: 'MM/DD/YYYY: '</value>
-</data>

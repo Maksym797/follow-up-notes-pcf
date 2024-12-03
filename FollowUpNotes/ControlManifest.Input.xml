@@ -5,14 +5,13 @@
     control-type="virtual">
     <external-service-usage enabled="false">
     </external-service-usage>
-    <property name="FollowUpNotes" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type="Multiple" usage="bound" required="true" />
-    <property name="DayjsFormat" display-name-key="DayjsFormat_DisplayName" description-key="DayjsFormat_Description"  of-type="SingleLine.Text" required="false" usage="bound"/>
+    <property name="FollowUpNotes" display-name-key="Property" description-key="Property" of-type="Multiple" usage="bound" required="true" />
+    <property name="DayjsFormat" display-name-key="Date Format" description-key="Provide format for date from `dayjs` docs. Default value: `MM/DD/YYYY: `" of-type="SingleLine.Text" required="false" usage="input"/>
     <resources>
       <code path="index.ts" order="1" />
       <platform-library name="React" version="16.8.6" />
       <platform-library name="Fluent" version="8.29.0" />
       <css path="output.css" order="1" />
-      <resx path="strings.resx" version="1.0.0" />
     </resources>
   </control>
 </manifest>
