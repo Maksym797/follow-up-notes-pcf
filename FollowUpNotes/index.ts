@@ -1,12 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IFollowUpNotesProps, FollowUpNotes as Control } from "./FollowUpNotes";
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import * as React from "react";
+import { Repository } from "./repository";
 
 export class FollowUpNotes
   implements ComponentFramework.ReactControl<IInputs, IOutputs>
 {
-  private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs>;
   private notifyOutputChanged: () => void;
+  private repository: Repository;
   private _value: string;
   constructor() {}
 
@@ -23,15 +25,25 @@ export class FollowUpNotes
   ): React.ReactElement {
     this._value = context.parameters.FollowUpNotes.raw as string;
     const dayjsFormat = context.parameters.DayjsFormat.raw || 'MM/DD/YYYY: ';
-    const autoAdjustHeight = context.parameters.AutoAdjustHeight.raw || false;
+    const autoAdjustHeight = context.parameters.AutoAdjustHeight.raw;
     const defaultRows = context.parameters.DefaultRowsCount.raw || 5;
+    const avoidOverwrite = context.parameters.AvoidOverwrite.raw;
+    const fieldName = context.parameters.FollowUpNotes.attributes?.LogicalName || '';
+    const entityName = (context as any).page?.entityTypeName;
+    const entityId = (context as any).page?.entityId;
+
+    this.repository = new Repository(context.webAPI);
+
     const props: IFollowUpNotesProps = {
       value: this._value,
       dateFormat: dayjsFormat,
       setValue: this.setValue.bind(this),
       autoAdjustHeight: autoAdjustHeight,
       defaultRows: defaultRows,
+      avoidOverwrite: avoidOverwrite,
+      getLatestValue: async () => this.repository.getLatestValue(entityName, entityId, fieldName),
     };
+
     return React.createElement(Control, props);
   }
 

@@ -5,15 +5,19 @@ import * as React from 'react';
 
 export interface IFollowUpNotesProps {
   value?: string;
-  setValue: (value: string) => void;
   dateFormat: string;
   autoAdjustHeight: boolean;
   defaultRows: number;
+  avoidOverwrite: boolean;
+  setValue: (value: string) => void;
+  getLatestValue: () => Promise<string>;
 }
 
-export const FollowUpNotes: FC<IFollowUpNotesProps> = ({ value, setValue, dateFormat, defaultRows, autoAdjustHeight }) => {
+export const FollowUpNotes: FC<IFollowUpNotesProps> = ({ value, setValue, dateFormat, defaultRows, autoAdjustHeight, avoidOverwrite, getLatestValue }) => {
   const [readOnlyValue, setReadOnlyValue] = useState<string>(value ?? "");
   const [inputValue, setInputValue] = useState<string | undefined>();
+
+  useEffect(() => { setReadOnlyValue(value ?? "") }, [value]);
 
   const onInputChange = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
     event.preventDefault();
@@ -24,11 +28,18 @@ export const FollowUpNotes: FC<IFollowUpNotesProps> = ({ value, setValue, dateFo
 
   const onEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => (e.key === 'Enter') && internalSendingHandler();
 
-  const internalSendingHandler = () => {
+  const internalSendingHandler = async () => {
     if (!inputValue)
       return;
 
-    setReadOnlyValue(`${dayjs().format(dateFormat)}${inputValue}\r\n${readOnlyValue}`);
+    let newReadOnlyValue = readOnlyValue;
+
+    if (avoidOverwrite) {
+      const latestFromDb = await getLatestValue();
+      newReadOnlyValue = latestFromDb ? latestFromDb : readOnlyValue;
+    }
+
+    setReadOnlyValue(`${dayjs().format(dateFormat)}${inputValue}\r\n${newReadOnlyValue}`);
     setInputValue("");
   }
 
