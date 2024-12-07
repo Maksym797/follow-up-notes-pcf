@@ -9,15 +9,16 @@ export interface IFollowUpNotesProps {
   autoAdjustHeight: boolean;
   defaultRows: number;
   avoidOverwrite: boolean;
-  setValue: (value: string) => void;
-  getLatestValue: () => Promise<string>;
+  setValueToField: (value: string) => void;
+  retrieveLatestValue: () => Promise<string>;
+  updateValueInDataverse: (value: string) => Promise<ComponentFramework.LookupValue>;
 }
 
-export const FollowUpNotes: FC<IFollowUpNotesProps> = ({ value, setValue, dateFormat, defaultRows, autoAdjustHeight, avoidOverwrite, getLatestValue }) => {
-  const [readOnlyValue, setReadOnlyValue] = useState<string>(value ?? "");
+export const FollowUpNotes: FC<IFollowUpNotesProps> = (props: IFollowUpNotesProps) => {
+  const [readOnlyValue, setReadOnlyValue] = useState<string>(props.value ?? "");
   const [inputValue, setInputValue] = useState<string | undefined>();
 
-  useEffect(() => { setReadOnlyValue(value ?? "") }, [value]);
+  useEffect(() => { setReadOnlyValue(props.value ?? "") }, [props.value]);
 
   const onInputChange = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
     event.preventDefault();
@@ -34,17 +35,21 @@ export const FollowUpNotes: FC<IFollowUpNotesProps> = ({ value, setValue, dateFo
 
     let newReadOnlyValue = readOnlyValue;
 
-    if (avoidOverwrite) {
-      const latestFromDb = await getLatestValue();
+    if (props.avoidOverwrite) {
+      const latestFromDb = await props.retrieveLatestValue();
       newReadOnlyValue = latestFromDb ? latestFromDb : readOnlyValue;
     }
 
-    setReadOnlyValue(`${dayjs().format(dateFormat)}${inputValue}\r\n${newReadOnlyValue}`);
+    setReadOnlyValue(`${dayjs().format(props.dateFormat)}${inputValue}\r\n${newReadOnlyValue}`);
     setInputValue("");
   }
 
   useEffect(() => {
-    setValue(readOnlyValue);
+    if (props.avoidOverwrite) {
+      props.updateValueInDataverse(readOnlyValue);
+    } else {
+      props.setValueToField(readOnlyValue);
+    }
   }, [readOnlyValue]);
 
   return (
@@ -56,8 +61,8 @@ export const FollowUpNotes: FC<IFollowUpNotesProps> = ({ value, setValue, dateFo
       <TextField
         className='!mt-3'
         multiline
-        rows={defaultRows}
-        autoAdjustHeight={autoAdjustHeight}
+        rows={props.defaultRows}
+        autoAdjustHeight={props.autoAdjustHeight}
         readOnly
         value={readOnlyValue} />
     </Stack >
