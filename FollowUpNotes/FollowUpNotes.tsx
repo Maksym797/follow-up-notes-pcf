@@ -9,6 +9,7 @@ export interface IFollowUpNotesProps {
   autoAdjustHeight: boolean;
   defaultRows: number;
   avoidOverwrite: boolean;
+  editable: boolean;
   setValueToField: (value: string) => void;
   retrieveLatestValue: () => Promise<string>;
   updateValueInDataverse: (value: string) => Promise<ComponentFramework.LookupValue>;
@@ -17,7 +18,9 @@ export interface IFollowUpNotesProps {
 export const FollowUpNotes: FC<IFollowUpNotesProps> = (props: IFollowUpNotesProps) => {
   const [readOnlyValue, setReadOnlyValue] = useState<string>(props.value ?? "");
   const [inputValue, setInputValue] = useState<string | undefined>();
+  const [isEditable, setIsEditable] = useState<boolean>();
 
+  useEffect(() => { setIsEditable(props.editable) }, [props.editable]);
   useEffect(() => { setReadOnlyValue(props.value ?? "") }, [props.value]);
 
   const onInputChange = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
@@ -54,10 +57,11 @@ export const FollowUpNotes: FC<IFollowUpNotesProps> = (props: IFollowUpNotesProp
 
   return (
     <Stack className="w-full h-full">
-      <Stack horizontal className='h-full'>
-        <TextField className="w-full !mr-3 h-full" value={inputValue} onChange={onInputChange} onKeyUp={onEnterPress} />
-        <PrimaryButton onClick={onSendButtonClick}>Send</PrimaryButton>
-      </Stack>
+      {isEditable &&
+        <Stack horizontal className='h-full'>
+          <TextField className="w-full !mr-3 h-full" value={inputValue} onChange={onInputChange} onKeyUp={onEnterPress} />
+          <PrimaryButton onClick={onSendButtonClick}>Send</PrimaryButton>
+        </Stack>}
       <TextField
         className='!mt-3'
         multiline
