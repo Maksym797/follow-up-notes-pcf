@@ -31,6 +31,7 @@ export class FollowUpNotes
     const fieldName = context.parameters.FollowUpNotes.attributes?.LogicalName || '';
     const entityName = (context as any).page?.entityTypeName;
     const entityId = (context as any).page?.entityId;
+    const isEditable = !context.mode.isControlDisabled;
 
     this.repository = new Repository(context.webAPI);
 
@@ -43,6 +44,7 @@ export class FollowUpNotes
       avoidOverwrite: avoidOverwrite,
       retrieveLatestValue: async () => this.repository.getLatestValue(entityName, entityId, fieldName),
       updateValueInDataverse: async (value: string) => this.repository.updateValue(entityName, entityId, fieldName, value),
+      editable: isEditable,
     };
 
     return React.createElement(Control, props);
