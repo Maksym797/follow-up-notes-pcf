@@ -37,11 +37,12 @@ export class FollowUpNotes
     const props: IFollowUpNotesProps = {
       value: this._value,
       dateFormat: dayjsFormat,
-      setValue: this.setValue.bind(this),
+      setValueToField: this.setValue.bind(this),
       autoAdjustHeight: autoAdjustHeight,
       defaultRows: defaultRows,
       avoidOverwrite: avoidOverwrite,
-      getLatestValue: async () => this.repository.getLatestValue(entityName, entityId, fieldName),
+      retrieveLatestValue: async () => this.repository.getLatestValue(entityName, entityId, fieldName),
+      updateValueInDataverse: async (value: string) => this.repository.updateValue(entityName, entityId, fieldName, value),
     };
 
     return React.createElement(Control, props);

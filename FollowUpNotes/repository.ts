@@ -13,4 +13,12 @@ export class Repository {
         const response = await this.webApi.retrieveRecord(entityType, entityId, `?$select=${fieldName}`);
         return response ? response[fieldName] : "";
     }
+
+    public async updateValue(entityType?: string, entityId?: string, fieldName?: string, value?: string) {
+        if (!entityType || !entityId || !fieldName) {
+            console.error("Invalid parameters for updating value.");
+            return { id: "" } as ComponentFramework.LookupValue;
+        }
+        return this.webApi.updateRecord(entityType, entityId,  { [fieldName]: value });
+    }
 }

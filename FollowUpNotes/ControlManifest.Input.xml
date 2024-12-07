@@ -8,7 +8,7 @@
     <property name="FollowUpNotes" display-name-key="Property" description-key="Property" of-type="Multiple" usage="bound" required="true" />
     <property name="DayjsFormat" display-name-key="Date Format" description-key="Provide format for date from `dayjs` docs. Default value: `MM/DD/YYYY: `" default-value="MM/DD/YYYY: " of-type="SingleLine.Text" required="false" usage="input"/>
     <property name="AutoAdjustHeight" display-name-key="Auto Adjust Height" description-key="Default: false" of-type="TwoOptions" default-value="false" required="false" usage="input"/>
-    <property name="AvoidOverwrite" display-name-key="Avoid Overwrite + read description" description-key="Retrieve the latest value from the database before sending to prevent overwriting. To enhance user experience, configure the form to save automatically on the onChange event of this field. Default: false" of-type="TwoOptions" default-value="false" required="false" usage="input"/>
+    <property name="AvoidOverwrite" display-name-key="Avoid Overwrite + read description" description-key="Before appending the value, retrieve the latest value using the Web API. The new value is sent directly through the Web API instead of being set to the field. Default: false" of-type="TwoOptions" default-value="false" required="false" usage="input"/>
     <property name="DefaultRowsCount" display-name-key="Readonly rows count" description-key="Default: 5" of-type="Whole.None" default-value="5" required="false" usage="input"/>
     <resources>
       <code path="index.ts" order="1" />
