@@ -11,7 +11,7 @@ export class Repository {
             return "";
         }
         const response = await this.webApi.retrieveRecord(entityType, entityId, `?$select=${fieldName}`);
-        return response ? response[fieldName] : "";
+        return response[fieldName] ?? "";
     }
 
     public async updateValue(entityType?: string, entityId?: string, fieldName?: string, value?: string) {
