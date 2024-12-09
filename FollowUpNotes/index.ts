@@ -40,6 +40,7 @@ export class FollowUpNotes
       dateFormat: dayjsFormat,
       setValueToField: this.setValue.bind(this),
       autoAdjustHeight: autoAdjustHeight,
+      isRecordCreated: !!entityId,
       defaultRows: defaultRows,
       avoidOverwrite: avoidOverwrite,
       retrieveLatestValue: async () => this.repository.getLatestValue(entityName, entityId, fieldName),

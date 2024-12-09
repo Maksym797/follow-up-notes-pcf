@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest>
-  <control namespace="mm797" constructor="FollowUpNotes" version="0.0.3"
+  <control namespace="mm797" constructor="FollowUpNotes" version="0.0.4"
     display-name-key="FollowUpNotes" description-key="FollowUpNotes description"
     control-type="virtual">
     <external-service-usage enabled="false">

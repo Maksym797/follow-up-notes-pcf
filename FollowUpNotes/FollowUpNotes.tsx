@@ -10,6 +10,7 @@ export interface IFollowUpNotesProps {
   defaultRows: number;
   avoidOverwrite: boolean;
   editable: boolean;
+  isRecordCreated: boolean;
   setValueToField: (value: string) => void;
   retrieveLatestValue: () => Promise<string>;
   updateValueInDataverse: (value: string) => Promise<ComponentFramework.LookupValue>;
@@ -36,24 +37,19 @@ export const FollowUpNotes: FC<IFollowUpNotesProps> = (props: IFollowUpNotesProp
     if (!inputValue)
       return;
 
-    let newReadOnlyValue = readOnlyValue;
+    let newReadOnlyValue = (props.avoidOverwrite && props.isRecordCreated) ? await props.retrieveLatestValue() : readOnlyValue;
 
-    if (props.avoidOverwrite) {
-      const latestFromDb = await props.retrieveLatestValue();
-      newReadOnlyValue = latestFromDb ? latestFromDb : readOnlyValue;
+    newReadOnlyValue = `${dayjs().format(props.dateFormat)}${inputValue}\r\n${newReadOnlyValue}`;
+
+    if (props.avoidOverwrite && props.isRecordCreated) {
+      props.updateValueInDataverse(newReadOnlyValue);
+    } else {
+      props.setValueToField(newReadOnlyValue);
     }
 
-    setReadOnlyValue(`${dayjs().format(props.dateFormat)}${inputValue}\r\n${newReadOnlyValue}`);
+    setReadOnlyValue(newReadOnlyValue);
     setInputValue("");
   }
-
-  useEffect(() => {
-    if (props.avoidOverwrite) {
-      props.updateValueInDataverse(readOnlyValue);
-    } else {
-      props.setValueToField(readOnlyValue);
-    }
-  }, [readOnlyValue]);
 
   return (
     <Stack className="w-full h-full">
