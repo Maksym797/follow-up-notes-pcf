@@ -20,6 +20,7 @@ export const FollowUpNotes: FC<IFollowUpNotesProps> = (props: IFollowUpNotesProp
   const [readOnlyValue, setReadOnlyValue] = useState<string>(props.value ?? "");
   const [inputValue, setInputValue] = useState<string | undefined>();
   const [isEditable, setIsEditable] = useState<boolean>();
+  const [sendingInProgress, setSendingInProgress] = useState<boolean>(false);
 
   useEffect(() => { setIsEditable(props.editable) }, [props.editable]);
   useEffect(() => { setReadOnlyValue(props.value ?? "") }, [props.value]);
@@ -34,8 +35,9 @@ export const FollowUpNotes: FC<IFollowUpNotesProps> = (props: IFollowUpNotesProp
   const onEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => (e.key === 'Enter') && internalSendingHandler();
 
   const internalSendingHandler = async () => {
-    if (!inputValue)
+    if (!inputValue || sendingInProgress)
       return;
+    setSendingInProgress(true);
 
     let newReadOnlyValue = (props.avoidOverwrite && props.isRecordCreated) ? await props.retrieveLatestValue() : readOnlyValue;
 
@@ -46,9 +48,10 @@ export const FollowUpNotes: FC<IFollowUpNotesProps> = (props: IFollowUpNotesProp
     } else {
       props.setValueToField(newReadOnlyValue);
     }
-
+    
     setReadOnlyValue(newReadOnlyValue);
     setInputValue("");
+    setSendingInProgress(false);
   }
 
   return (
@@ -56,7 +59,7 @@ export const FollowUpNotes: FC<IFollowUpNotesProps> = (props: IFollowUpNotesProp
       {isEditable &&
         <Stack horizontal className='h-full'>
           <TextField className="w-full !mr-3 h-full" value={inputValue} onChange={onInputChange} onKeyUp={onEnterPress} />
-          <PrimaryButton onClick={onSendButtonClick}>Send</PrimaryButton>
+          <PrimaryButton onClick={onSendButtonClick} disabled={sendingInProgress}>Send</PrimaryButton>
         </Stack>}
       <TextField
         className='!mt-3'
