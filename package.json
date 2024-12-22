@@ -12,7 +12,8 @@
         "rebuild": "npm run taiwind:build && pcf-scripts rebuild",
         "start": "npm run taiwind:build && pcf-scripts start",
         "start:watch": "npm run taiwind:build && pcf-scripts start watch",
-        "refreshTypes": "npm run taiwind:build && pcf-scripts refreshTypes"
+        "refreshTypes": "npm run taiwind:build && pcf-scripts refreshTypes",
+        "pcf:push": "pac pcf push --solution-unique-name FollowUpNotes"
     },
     "dependencies": {
         "@fluentui/react": "8.29.0",
